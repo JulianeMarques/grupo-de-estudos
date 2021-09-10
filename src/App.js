@@ -11,8 +11,12 @@ function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/" component={ Login } />
-        <Route exact path="/TodoList" component={ TodoList } />
+        <Route exact path="/">
+          <Login setEmail={ setEmail } />
+        </Route>
+        <Route exact path="/TodoList">
+          <TodoList email ={ email } />
+        </Route>
       </Switch>
     </BrowserRouter>
   );
