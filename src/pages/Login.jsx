@@ -1,41 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import TodoList from './TodoList';
 
-class Login extends React.Component {
-  state = {
-      email: '',
-      password: '',
-      redirect: false,
-  }
+function Login({ saveEmail }) {
+	const dispatch = useDispatch();
+	const [email, setEmail] = useState('')
+	const [password, setPassword] = useState('')
+	const [redirect, setRedirect] = useState(false)
 
-  handleClick = () => {
-      this.props.setEmail(this.state.email);
-      this.setState({ redirect: true });
-  }
+	const handleClick = () => {
+		dispatch({type: 'REGISTER_USER', payload: email});
+		setRedirect(true);
+	}
 
-  handleChange = ({ target }) => {
-    this.setState({ [target.type]: target.value });
-  }
+	const handleChange = ({ target }) => {
+		if (target.type === 'email') setEmail(target.value)
+		if (target.type === 'password') setPassword(target.value)
+	}
 
-  render() {
-    if(this.state.redirect) return <Redirect to="/TodoList" />
+	if(redirect) return <Redirect to="/TodoList" />
 
-    const { email, password } = this.state;
-
-        return (
-            <div>
-                <h1>Login</h1>
-                <form>
-                    <input value={ email }  placeholder="email" type="email" onChange={ this.handleChange } />
-                    <input value={ password }  placeholder="senha" type="password" onChange={ this.handleChange } />
-                    <button type="button" onClick={ this.handleClick } > 
-                        Enviar
-                    </button>
-                </form>
-            </div>
-        )
-    }
+	return (
+			<div>
+					<h1>Login</h1>
+					<form>
+							<input value={ email }  placeholder="email" type="email" onChange={ handleChange } />
+							<input value={ password }  placeholder="senha" type="password" onChange={ handleChange } />
+							<button type="button" onClick={ handleClick } > 
+									Enviar
+							</button>
+					</form>
+			</div>
+	)
 }
 
 export default Login;
